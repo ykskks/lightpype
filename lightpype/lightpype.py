@@ -4,6 +4,7 @@ import json
 import subprocess
 from datetime import datetime
 from pathlib import Path
+from typing import Optional
 
 LOGDIR_NAME = ".lightpype"
 LOGFILE_NAME = "log.json"
@@ -64,7 +65,7 @@ class Pipeline:
         self.scripts = scripts
         self.rootdir = rootdir
 
-    def _get_execute_from_index(self, last_executed_at: datetime) -> int:
+    def _get_execute_from_index(self, last_executed_at: datetime) -> Optional[int]:
         """get index of script to execute from.
 
         Args:
@@ -79,7 +80,7 @@ class Pipeline:
                 return i
 
         # when no file was modified after last execution
-        return -1
+        return None
 
     def run(self) -> None:
         """run pipeline."""
@@ -103,7 +104,10 @@ class Pipeline:
 
             execute_from = self._get_execute_from_index(last_executed_at)
 
-            for script in self.scripts[execute_from:]:
-                script.run()
+            if execute_from is not None:
+                for script in self.scripts[execute_from:]:
+                    script.run()
+            else:
+                pass
 
         dump_json({"last_executed_at": str(datetime.now())}, logdir / LOGFILE_NAME)
