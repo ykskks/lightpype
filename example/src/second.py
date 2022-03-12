@@ -13,7 +13,7 @@ def main():
         # read first_out.txt and write str length to second_out.txt
         f.write(str(len(s)))
 
-    print("second exucuted.")
+    print("second executed.")
 
 
 if __name__ == "__main__":

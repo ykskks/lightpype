@@ -28,7 +28,7 @@ class TestPipeline:
         captured = capfd.readouterr()
         assert captured.out == "first\nsecond\n"
 
-    def test_no_exucution(self, tmpdir, capfd):
+    def test_no_execution(self, tmpdir, capfd):
         srcdir = tmpdir.mkdir("src")
 
         first_py = srcdir.join("first.py")
@@ -37,7 +37,7 @@ class TestPipeline:
         second_py.write("print('second')")
 
         logfile = tmpdir.mkdir(LOGDIR_NAME).join(LOGFILE_NAME)
-        logfile.write('{"last_excuted_at": ' + f'"{str(datetime.now())}"' + "}")
+        logfile.write('{"last_executed_at": ' + f'"{str(datetime.now())}"' + "}")
 
         scripts = [
             Script(Path(first_py)),
@@ -58,7 +58,7 @@ class TestPipeline:
         first_py.write("print('first')")
 
         logfile = tmpdir.mkdir(LOGDIR_NAME).join(LOGFILE_NAME)
-        logfile.write('{"last_excuted_at": ' + f'"{str(datetime.now())}"' + "}")
+        logfile.write('{"last_executed_at": ' + f'"{str(datetime.now())}"' + "}")
 
         second_py = srcdir.join("second.py")
         second_py.write("print('second')")

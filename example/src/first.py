@@ -9,7 +9,7 @@ def main():
     with open(DATA_PATH / "first_out.txt", mode="w") as f:
         f.write("Hello world!")
 
-    print("first exucuted.")
+    print("first executed.")
 
 
 if __name__ == "__main__":
