@@ -3,11 +3,13 @@
 lightpype is a lightweight Python library for pipeline management.
 
 ## Installation
+
 ```bash
 pip install lightpype
 ```
 
 ## Usage
+
 Usage example is provided in example direcotry.
 
 ```python
@@ -35,8 +37,21 @@ if __name__ == "__main__":
 ```
 
 ## WIP
+
 - List executed scripts before the actual execution.
 - Add options to enable customization.
 
+## For developers
+
+```bash
+# setup
+pip install -r requirements-dev.txt
+pre-commit install
+
+# run tests
+pytest
+```
+
 ## License
+
 [MIT](https://choosealicense.com/licenses/mit/)
