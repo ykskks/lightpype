@@ -1,0 +1,57 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.1.0
+  hooks:
+  - id: check-added-large-files
+  - id: check-json
+  - id: check-toml
+  - id: check-yaml
+  - id: detect-aws-credentials
+    args: [--allow-missing-credentials]
+  - id: detect-private-key
+  - id: end-of-file-fixer
+  - id: name-tests-test
+    args: [--django]
+  - id: pretty-format-json
+    args: [--autofix]
+
+- repo: https://github.com/PyCQA/flake8
+  rev: 4.0.1
+  hooks:
+  - id: flake8
+    args: [--max-line-length, "88", --ignore=E402, --max-complexity, "10", --max-expression-complexity=7, --max-cognitive-complexity=7]
+    additional_dependencies: [flake8-bugbear, flake8-builtins, flake8-eradicate, pep8-naming, flake8-expression-complexity, flake8-cognitive-complexity]
+
+- repo: local
+  hooks: 
+  - id: pyright
+    name: pyright
+    entry: pyright
+    language: node
+    pass_filenames: false
+    types: [python]
+    additional_dependencies: ['pyright@1.1.216']
+
+- repo: https://github.com/psf/black
+  rev: 21.12b0
+  hooks:
+  - id: black
+    language_version: python3
+
+- repo: https://github.com/pycqa/isort
+  rev: 5.10.1
+  hooks:
+    - id: isort
+      args: ["--profile", "black"]
+
+- repo: https://github.com/myint/docformatter
+  rev: v1.4
+  hooks:
+    - id: docformatter
+      args: [--in-place]
+
+- repo: https://github.com/markdownlint/markdownlint
+  rev: v0.11.0
+  hooks:
+    - id: markdownlint
+      args: [-r, ~MD013]
