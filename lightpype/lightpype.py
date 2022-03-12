@@ -64,32 +64,46 @@ class Pipeline:
         self.scripts = scripts
         self.rootdir = rootdir
 
+    def _get_execute_from_index(self, last_executed_at: datetime) -> int:
+        """get index of script to execute from.
+
+        Args:
+            last_executed_at (datetime): datetime of last execution.
+
+        Returns:
+            int: index of script to execute from.
+        """
+
+        for i, script in enumerate(self.scripts):
+            if last_executed_at <= script.last_modified_at:
+                return i
+
+        # when no file was modified after last execution
+        return -1
+
     def run(self) -> None:
         """run pipeline."""
         logdir = self.rootdir / LOGDIR_NAME
         logdir.mkdir(exist_ok=True)
 
         try:
-            excution_log = load_json(logdir / LOGFILE_NAME)
+            execution_log = load_json(logdir / LOGFILE_NAME)
         except FileNotFoundError:
-            excution_log = None
+            execution_log = None
 
         # when pipline is first run
-        if excution_log is None:
+        if execution_log is None:
             for script in self.scripts:
                 script.run()
 
         else:
-            last_exceuted_at = datetime.strptime(
-                excution_log["last_excuted_at"], "%Y-%m-%d %H:%M:%S.%f"
+            last_executed_at = datetime.strptime(
+                execution_log["last_executed_at"], "%Y-%m-%d %H:%M:%S.%f"
             )
-            for i, script in enumerate(self.scripts):
-                if last_exceuted_at <= script.last_modified_at:
 
-                    # run all scripts after last modified script
-                    for script in self.scripts[i:]:
-                        script.run()
+            execute_from = self._get_execute_from_index(last_executed_at)
 
-                    break
+            for script in self.scripts[execute_from:]:
+                script.run()
 
-        dump_json({"last_excuted_at": str(datetime.now())}, logdir / LOGFILE_NAME)
+        dump_json({"last_executed_at": str(datetime.now())}, logdir / LOGFILE_NAME)
