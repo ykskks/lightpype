@@ -1,5 +1,7 @@
 # lightpype
 
+[![pytest](https://github.com/ykskks/lightpype/actions/workflows/pytest.yml/badge.svg)](https://github.com/ykskks/lightpype/actions/workflows/pytest.yml)
+
 lightpype is a lightweight Python library for pipeline management.
 
 ## Installation
