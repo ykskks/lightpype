@@ -25,5 +25,8 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements-dev.txt
         
+      - name: Install lightpype
+        run: pip install .
+        
       - name: Run test suite
         run: pytest
