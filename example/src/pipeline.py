@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from dependable import Pipeline, Script
+from lightpype import Pipeline, Script
 
 ROOT_DIR = Path(__file__).parents[1]  # always returns absolute path in Python3.9+
 SRC_PATH = ROOT_DIR / "src"
