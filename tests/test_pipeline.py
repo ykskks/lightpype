@@ -7,14 +7,18 @@ LOGDIR_NAME = ".lightpype"
 LOGFILE_NAME = "log.json"
 
 
+def _make_sample_script(srcdir, filename: str):  # -> py.path.local
+    script = srcdir.join(f"{filename}.py")
+    script.write(f"print('{filename}')")
+    return script
+
+
 class TestPipeline:
     def test_first_run(self, tmpdir, capfd):
         srcdir = tmpdir.mkdir("src")
 
-        first_py = srcdir.join("first.py")
-        first_py.write("print('first')")
-        second_py = srcdir.join("second.py")
-        second_py.write("print('second')")
+        first_py = _make_sample_script(srcdir, "first")
+        second_py = _make_sample_script(srcdir, "second")
 
         scripts = [
             Script(Path(first_py)),
@@ -31,10 +35,8 @@ class TestPipeline:
     def test_no_execution(self, tmpdir, capfd):
         srcdir = tmpdir.mkdir("src")
 
-        first_py = srcdir.join("first.py")
-        first_py.write("print('first')")
-        second_py = srcdir.join("second.py")
-        second_py.write("print('second')")
+        first_py = _make_sample_script(srcdir, "first")
+        second_py = _make_sample_script(srcdir, "second")
 
         logfile = tmpdir.mkdir(LOGDIR_NAME).join(LOGFILE_NAME)
         logfile.write('{"last_executed_at": ' + f'"{str(datetime.now())}"' + "}")
@@ -54,14 +56,12 @@ class TestPipeline:
     def test_only_second(self, tmpdir, capfd):
         srcdir = tmpdir.mkdir("src")
 
-        first_py = srcdir.join("first.py")
-        first_py.write("print('first')")
+        first_py = _make_sample_script(srcdir, "first")
 
         logfile = tmpdir.mkdir(LOGDIR_NAME).join(LOGFILE_NAME)
         logfile.write('{"last_executed_at": ' + f'"{str(datetime.now())}"' + "}")
 
-        second_py = srcdir.join("second.py")
-        second_py.write("print('second')")
+        second_py = _make_sample_script(srcdir, "second")
 
         scripts = [
             Script(Path(first_py)),
