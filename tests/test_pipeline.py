@@ -1,3 +1,4 @@
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -63,6 +64,7 @@ class TestPipeline:
         first_py = _make_sample_script(srcdir, "first")
 
         _make_sample_logfile(tmpdir)
+        time.sleep(1.0)  # make sure the logfile is written first
 
         second_py = _make_sample_script(srcdir, "second")
 
