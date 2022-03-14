@@ -13,6 +13,11 @@ def _make_sample_script(srcdir, filename: str):  # -> py.path.local
     return script
 
 
+def _make_sample_logfile(tmpdir):  # -> py.path.local
+    logfile = tmpdir.mkdir(LOGDIR_NAME).join(LOGFILE_NAME)
+    logfile.write('{"last_executed_at": ' + f'"{str(datetime.now())}"' + "}")
+
+
 class TestPipeline:
     def test_first_run(self, tmpdir, capfd):
         srcdir = tmpdir.mkdir("src")
@@ -38,8 +43,7 @@ class TestPipeline:
         first_py = _make_sample_script(srcdir, "first")
         second_py = _make_sample_script(srcdir, "second")
 
-        logfile = tmpdir.mkdir(LOGDIR_NAME).join(LOGFILE_NAME)
-        logfile.write('{"last_executed_at": ' + f'"{str(datetime.now())}"' + "}")
+        _make_sample_logfile(tmpdir)
 
         scripts = [
             Script(Path(first_py)),
@@ -58,8 +62,7 @@ class TestPipeline:
 
         first_py = _make_sample_script(srcdir, "first")
 
-        logfile = tmpdir.mkdir(LOGDIR_NAME).join(LOGFILE_NAME)
-        logfile.write('{"last_executed_at": ' + f'"{str(datetime.now())}"' + "}")
+        _make_sample_logfile(tmpdir)
 
         second_py = _make_sample_script(srcdir, "second")
 
